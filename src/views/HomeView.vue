@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <main>
-    asdf
-  </main>
+  <div class="home">
+   
+  </div>
 </template>
