@@ -4,6 +4,6 @@
 
 <template>
   <div class="home">
-   
+   asdf
   </div>
 </template>
