@@ -1,21 +1,29 @@
 <script setup>
-
-import { ref, watchEffect } from "vue";
+import { ref, watchEffect,onMounted } from "vue";
 import useStudent from '../composables/studentApi'
+import { useRoute } from 'vue-router';
 
-const {student,createStudent,err} = useStudent();
 
 
+const route = useRoute();
+const {getStudent,err,student,updateStudent} = useStudent();
 
 const studentData = ref({
     name:'',
     email:'',
 });
 
-const createStudentHandler = async () => {
-  if (studentData.value.name && studentData.value.email) {    
-    await createStudent({stuname:studentData.value.name,email:studentData.value.email});
-  }
+
+onMounted(async()=> {
+  await getStudent(route.params.id);
+  console.log(student.value);
+});
+
+
+const updateStudentHandler = () => {
+    if (student.value?.stuname && student.value?.email) {
+        updateStudent(route.params.id,{stuname:student.value.stuname,email:student.value.email});
+    }
 }
 
 
@@ -36,12 +44,12 @@ const createStudentHandler = async () => {
 
 <template>
   <div class="container py-4">
-    <form @submit.prevent="createStudentHandler">
+    <form @submit.prevent="updateStudentHandler">
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Email address</label>
         <input
           type="email"
-          v-model="studentData.email"
+          v-model="student.email"
           class="form-control"
           id="exampleInputEmail1"
           aria-describedby="emailHelp"
@@ -53,7 +61,7 @@ const createStudentHandler = async () => {
       <div class="mb-3">
         <label for="exampleInputPassword1" class="form-label">Name</label>
         <input
-        v-model="studentData.name"
+        v-model="student.stuname"
           type="text"
           class="form-control"
           id="exampleInputPassword1"
