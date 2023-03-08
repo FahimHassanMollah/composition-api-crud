@@ -4,6 +4,7 @@ import NotFound from '../views/NotFound.vue';
 import Add from '../views/Add.vue';
 import View from '../views/View.vue';
 import Edit from '../views/Edit.vue';
+import Login from '../views/Login.vue';
 
 
 const router = createRouter({
@@ -13,6 +14,11 @@ const router = createRouter({
       path: '/',
       name: 'list',
       component: List
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login
     },
     {
       path: '/view/:id',

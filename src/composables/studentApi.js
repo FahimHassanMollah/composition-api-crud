@@ -64,7 +64,21 @@ const useStudent = () => {
             console.log(error);
         }
     }
-    return { getStudents, students, err, getStudent, student,createStudent,updateStudent }
+    // delete single student
+    const deleteStudent = async (id,data) => {
+        const url = `http://localhost:8002/students/${id}`;
+        student.value = [];
+        err.value = null;
+        try {
+            const res = await axios.delete(url);
+            console.log(res.data);
+            student.value = res.data;
+        } catch (error) {
+            err.value = error;
+            console.log(error);
+        }
+    }
+    return { getStudents, students, err, getStudent, student,createStudent,updateStudent,deleteStudent }
 }
 
 

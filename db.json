@@ -1,21 +1,6 @@
 {
   "students": [
     {
-      "stuname": "rakib islam",
-      "email": "rakib@gmail.com",
-      "id": 1
-    },
-    {
-      "stuname": "Jay",
-      "email": "jayas@gmail.com",
-      "id": 3
-    },
-    {
-      "stuname": "Soni",
-      "email": "soni@gmail.com",
-      "id": 4
-    },
-    {
       "stuname": "Sonali",
       "email": "sonali@gs.com",
       "id": 5
@@ -29,11 +14,6 @@
       "stuname": "Rajesh",
       "email": "raj@gmail.com",
       "id": 8
-    },
-    {
-      "stuname": "fahim",
-      "email": "fahim@gmail.com",
-      "id": 9
     }
   ]
 }
