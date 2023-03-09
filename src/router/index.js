@@ -5,6 +5,7 @@ import Add from '../views/Add.vue';
 import View from '../views/View.vue';
 import Edit from '../views/Edit.vue';
 import Login from '../views/Login.vue';
+import store from '../store';
 
 
 const router = createRouter({
@@ -13,7 +14,10 @@ const router = createRouter({
     {
       path: '/',
       name: 'list',
-      component: List
+      component: List,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/login',
@@ -45,6 +49,22 @@ const router = createRouter({
     },
     { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
   ]
+})
+
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth) {
+    if (store.getters['login/authToken']?.accessToken) {
+      next();
+    }
+    else {
+      next({ name: 'login' });
+    }
+    console.log(store.getters['login/authToken'], " store.getters['login/isLoggedIn']");
+  }
+  else {
+    (store.getters['login/authToken']?.accessToken) ? (router.push({ name: 'home' })) : next();
+  }
 })
 
 export default router

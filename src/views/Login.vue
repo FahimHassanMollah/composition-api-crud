@@ -2,16 +2,19 @@
 import { reactive } from "vue";
 import { useStore } from 'vuex';
 import { computed } from 'vue'
+import { useRouter } from "vue-router";
 
 // vuex  actions , getters  here
 const store = useStore();
 const authUser = computed(()=> store.getters['login/authUser']);
 console.log(authUser, "authUser");
 const isLoading = computed(()=> store.getters['login/isLoading']);
+const isScuccess = computed(()=> store.getters['login/isScuccess']);
 const isError = computed(()=> store.getters['login/isError']);
 const error = computed(()=> store.getters['login/error']);
 
 
+const router = useRouter()
 
 const loginData = reactive({
     email: '',
@@ -20,7 +23,11 @@ const loginData = reactive({
 
 const loginHandler = async () => {
    await store.dispatch('login/login', {username: loginData.email, password: loginData.password});
-   console.log(authUser, "authUser");
+   if (isScuccess.value ) {
+        router.push({ name: 'list' });
+   }
+    console.log(isScuccess, "isScuccess");
+    console.log(authUser, "authUser");
 
 }
 </script>

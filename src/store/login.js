@@ -11,6 +11,7 @@ export const login = {
         isLoading: false,
         isError: false,
         error: null,
+        isScuccess: false,
     },
     getters: {
         authUser(state) {
@@ -27,6 +28,9 @@ export const login = {
         },
         error(state) {
             return state.error;
+        },
+        isScuccess(state) {
+            return state.isScuccess;
         }
 
 
@@ -40,6 +44,9 @@ export const login = {
         },
         setError (state, error) {
             state.error = error;
+        },
+        setIsScuccess(state, isScuccess) {
+            state.isScuccess = isScuccess;
         },
         setAuthUser(state, user) {
             state.authUser = user
@@ -55,6 +62,7 @@ export const login = {
             commit('setIsLoading', true);
             commit('setIsError', false);
             commit('setAuthUser', {});
+            commit('setIsScuccess', false);
 
             const path = `v1/login-token`;
 
@@ -63,6 +71,7 @@ export const login = {
                 console.log(response);
                 
                 if (response?.data?.data?.user) {
+                    await commit('setIsScuccess', true);
                     await commit('setAuthUser', response.data.data.user);
                 }
 
@@ -75,6 +84,7 @@ export const login = {
             } catch (error) {
                 commit('setIsLoading', false);
                 commit('setIsError', true);
+                
                 const errorData = {
                     message:null,
                     errors: []
@@ -91,6 +101,12 @@ export const login = {
                     
                 
 
+            }
+        },
+      async attempt ({ commit }, {token, user}) {
+            if (token && user) {
+               await commit('setAuthToken', token);
+               await commit('setAuthUser', user);
             }
         }
     },

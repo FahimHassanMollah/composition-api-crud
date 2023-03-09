@@ -48,8 +48,23 @@ store.subscribe((mutation, state) => {
 
 })
 
-
 app.use(router);
 app.use(store);
 
-app.mount('#app');
+const authUser = localStorage.getItem('authUser');
+const authToken = localStorage.getItem('authToken');
+
+if (authToken && authUser) {
+    console.log(authToken, authUser);
+    store.dispatch('login/attempt', {token:JSON.parse(authToken), user:JSON.parse(authUser)}).then(() => {
+        app.mount('#app');
+    });
+   
+}
+else {
+    app.mount('#app');
+}
+    
+
+
+
