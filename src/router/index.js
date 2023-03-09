@@ -5,12 +5,21 @@ import Add from '../views/Add.vue';
 import View from '../views/View.vue';
 import Edit from '../views/Edit.vue';
 import Login from '../views/Login.vue';
+import AppointmentList from '../views/appointments/AppointmentList.vue';
 import store from '../store';
 
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: '/appointments',
+      name: 'appointmentList',
+      component: AppointmentList,
+      meta: {
+        requiresAuth: true
+      }
+    },
     {
       path: '/',
       name: 'list',

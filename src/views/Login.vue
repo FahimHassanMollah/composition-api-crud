@@ -6,12 +6,12 @@ import { useRouter } from "vue-router";
 
 // vuex  actions , getters  here
 const store = useStore();
-const authUser = computed(()=> store.getters['login/authUser']);
+const authUser = computed(() => store.getters['login/authUser']);
 console.log(authUser, "authUser");
-const isLoading = computed(()=> store.getters['login/isLoading']);
-const isScuccess = computed(()=> store.getters['login/isScuccess']);
-const isError = computed(()=> store.getters['login/isError']);
-const error = computed(()=> store.getters['login/error']);
+const isLoading = computed(() => store.getters['login/isLoading']);
+const isScuccess = computed(() => store.getters['login/isScuccess']);
+const isError = computed(() => store.getters['login/isError']);
+const error = computed(() => store.getters['login/error']);
 
 
 const router = useRouter()
@@ -22,10 +22,10 @@ const loginData = reactive({
 });
 
 const loginHandler = async () => {
-   await store.dispatch('login/login', {username: loginData.email, password: loginData.password});
-   if (isScuccess.value ) {
+    await store.dispatch('login/login', { username: loginData.email, password: loginData.password });
+    if (isScuccess.value) {
         router.push({ name: 'list' });
-   }
+    }
     console.log(isScuccess, "isScuccess");
     console.log(authUser, "authUser");
 
@@ -37,7 +37,8 @@ const loginHandler = async () => {
         <form @submit.prevent="loginHandler">
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Email address</label>
-                <input type="email" class="form-control" v-model="loginData.email" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <input type="email" class="form-control" v-model="loginData.email" id="exampleInputEmail1"
+                    aria-describedby="emailHelp">
             </div>
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Password</label>
