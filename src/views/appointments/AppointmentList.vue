@@ -1,11 +1,12 @@
 <script setup>
-import { onMounted } from 'vue';
-import { reactive,computed } from "vue";
+import { reactive,computed, onMounted, watch } from "vue";
 import { useStore } from 'vuex';
+import Pagination from '../../components/Pagination.vue';
 
 // vuex  actions , getters  here
 const store = useStore();
-const appointmets = computed(() => store.getters['appointments/appointments']);
+const appointments = computed(() => store.getters['appointments/appointments']);
+const meta = computed(() => store.getters['appointments/meta']);
 const isLoading = computed(() => store.getters['appointments/isLoading']);
 const isScuccess = computed(() => store.getters['appointments/isScuccess']);
 const isError = computed(() => store.getters['appointments/isError']);
@@ -37,6 +38,13 @@ const appointmentParams = reactive({
 })
 
 
+watch(() => appointmentParams.page, (newVal, oldVal) => {
+    if (newVal !== oldVal) {
+        getAppointmentsHandler(appointmentParams);
+    }
+})
+
+
 
 // functions
 
@@ -44,21 +52,130 @@ const getAppointmentsHandler = async (appointmentParams) => {
     await store.dispatch('appointments/getAppointments', appointmentParams);
 }
 
+const changePage = (page) => {
+    appointmentParams.page = page;
+   
+}
+
 onMounted(async ()=> {
     console.log("mounted", appointmentParams);
     await getAppointmentsHandler(appointmentParams);
-    console.log(appointmets, "appointmets");
-    console.log(isLoading, "isLoading");
-    console.log(isScuccess, "isScuccess");
-    console.log(isError, "isError");
-    console.log(error, "error");
+  
+   
 });
 
 </script>
 <template>
-    <div>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur beatae tempora, nostrum vitae commodi architecto
-        quisquam cum, quia error minima sapiente assumenda nobis officiis magnam maxime? Voluptates inventore laudantium
-        provident?
-    </div>
+   <div class="card">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table id="users-list-datatable" class="table">
+                  <thead>
+                  <tr>
+                    <th class="position-relative" style="width: 5%">SL</th>
+                    <th class="position-relative" style="width: 20%">Customer</th>
+                    <th class="position-relative" style="width: 10%">Service</th>
+                    <th class="position-relative" style="width: 10%">Panel</th>
+                    <th class="position-relative" style="width: 15%">Job Location</th>
+                    <th class="position-relative" style="width: 15%">Technician</th>
+                    <th class="position-relative" style="width: 5%">Status</th>
+                    <th class="position-relative text-right" style="width: 15%">Price</th>
+                    <th class="position-relative text-right" style="width: 5%">Action</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+
+                  <tr v-for="(appointment, index) in appointments" :key="index">
+                    <td>{{ index + 1 }}</td>
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <span>
+                          <i class="bx"
+                             :class="appointment.type === 'Home' ? 'bx-home text-warning' : 'bxs-business text-success'"></i>
+                        </span>
+                        <span title="Click to view customer details" v-if="appointment.customer && appointment.customer.user">
+                          {{ `${appointment.customer.user.first_name} ${appointment.customer.user.last_name}` }}
+                        </span>
+                      </div>
+                      <div>
+
+                        <small >
+                          Reference: #{{ appointment.reference }}
+                        </small>
+
+                      </div>
+                      <div>
+                        <small>
+                          Service date : {{ `${appointment.date} ${appointment.time}` }}
+                        </small>
+                      </div>
+                      <div>
+                        <small>
+                          Creation date : {{ appointment.created_at ? appointment.created_at : '-' }}
+                        </small>
+                      </div>
+
+                    </td>
+                    <td>
+                      {{ appointment.service && appointment.service.name ? appointment.service.name : '-' }}
+                    </td>
+                    <td>
+                      <div v-if="appointment?.appointmentCreator?.panel">
+                        <span class="text-success"
+                              v-if="appointment.appointmentCreator.panel === 'Online Appointment Form'">{{
+                            appointment?.appointmentCreator?.panel
+                          }}</span>
+                        <span class="text-primary"
+                              v-if="appointment.appointmentCreator.panel === 'System Web-App'">{{
+                            appointment?.appointmentCreator?.panel
+                          }}</span>
+                        <span class="text-info"
+                              v-if="appointment.appointmentCreator.panel === 'Technician Mob-App'">{{
+                            appointment?.appointmentCreator?.panel
+                          }}</span>
+                        <span class="text-secondary" v-if="appointment.appointmentCreator.panel === 'Customer Web-App'">{{
+                            appointment?.appointmentCreator?.panel
+                          }}</span>
+                      </div>
+                      <span v-else>-</span>
+
+                    </td>
+                    <td>
+                      <div v-if="appointment.preference === 'On-Site'">
+                        <span v-if="appointment.address">
+                          {{
+                            `${appointment.address.street}, ${appointment.address.suburb} ${appointment.address.state.toUpperCase()} ${appointment.address.post_code}, ${appointment.address.country}`
+                          }}
+                        </span>
+                      </div>
+                      <span v-else class="badge badge-pill">
+                        {{ appointment.preference }}
+                      </span>
+                    </td>
+                    <td>
+                      <div v-if="appointment?.technicianAppointment?.id">
+                        {{
+                          `${appointment.technicianAppointment.technician.user.first_name} ${appointment.technicianAppointment.technician.user.last_name}`
+                        }}
+                      </div>
+                      <div v-else>
+                        <span class="badge badge-pill badge-danger">To be assign</span>
+                      </div>
+
+                    </td>
+                    <td>
+                      <span class="badge badge-pill">
+                        {{ appointment.status }}
+                      </span>
+                    </td>
+                    
+                    
+                  </tr>
+                  </tbody>
+                </table>
+                <Pagination @changePage="changePage" :meta="meta"/>
+               
+              </div>
+            </div>
+          </div>
 </template>

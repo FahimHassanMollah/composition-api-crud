@@ -9,7 +9,7 @@ const store = useStore();
 const authUser = computed(() => store.getters['login/authUser']);
 console.log(authUser, "authUser");
 const isLoading = computed(() => store.getters['login/isLoading']);
-const isScuccess = computed(() => store.getters['login/isScuccess']);
+const isSuccess = computed(() => store.getters['login/isSuccess']);
 const isError = computed(() => store.getters['login/isError']);
 const error = computed(() => store.getters['login/error']);
 
@@ -23,10 +23,10 @@ const loginData = reactive({
 
 const loginHandler = async () => {
     await store.dispatch('login/login', { username: loginData.email, password: loginData.password });
-    if (isScuccess.value) {
+    if (isSuccess.value) {
         router.push({ name: 'list' });
     }
-    console.log(isScuccess, "isScuccess");
+    console.log(isSuccess, "isSuccess");
     console.log(authUser, "authUser");
 
 }

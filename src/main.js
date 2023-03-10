@@ -4,6 +4,7 @@ import router from './router'
 import store from './store';
 import axios from 'axios';
 import '../src/assets/main.css';
+import 'vue-toast-notification/dist/theme-sugar.css';
 
 axios.defaults.baseURL = import.meta.env.VITE_APP_API_URL;
 console.log(import.meta.env.VITE_APP_API_URL);

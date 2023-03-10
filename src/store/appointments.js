@@ -4,17 +4,21 @@ export const appointments = {
     namespaced: true,
     state: {
         appointments: [],
+        meta: {},
         paginateLinks: {},
         isLoading: false,
         isError: false,
         error: null,
-        isScuccess: false,
+        isSuccess: false,
     },
     getters: {
         appointments(state) {
             return state.appointments
         },
-       
+        meta(state) {
+            return state.meta
+        },
+
         isLoading(state) {
             return state.isLoading;
         },
@@ -24,8 +28,8 @@ export const appointments = {
         error(state) {
             return state.error;
         },
-        isScuccess(state) {
-            return state.isScuccess;
+        isSuccess(state) {
+            return state.isSuccess;
         }
 
 
@@ -40,19 +44,22 @@ export const appointments = {
         setError(state, error) {
             state.error = error;
         },
-        setIsScuccess(state, isScuccess) {
-            state.isScuccess = isScuccess;
+        setIsSuccess(state, isSuccess) {
+            state.isSuccess = isSuccess;
         },
         setAppointments(state, appointments) {
             state.appointments = appointments
+        },
+        setPagination(state, meta) {
+            state.meta = meta
         }
-      
+
     },
     actions: {
         async getAppointments({ commit }, params) {
             commit('setIsLoading', true);
             commit('setIsError', false);
-            commit('setIsScuccess', false);
+            commit('setIsSuccess', false);
             commit('setError', {});
             commit('setAppointments', []);
 
@@ -62,9 +69,12 @@ export const appointments = {
                 const response = await axios.get(path, { params });
                 console.log(response);
 
-                if (response?.data?.data?.user) {
-                    await commit('setIsScuccess', true);
-                    await commit('setAppointments', response.data.data.appointments);
+                if (response?.data?.data) {
+                    await commit('setIsSuccess', true);
+                    await commit('setAppointments', response.data.data);
+                }
+                if (response?.data?.meta) {
+                    await commit('setPagination', response.data.meta);
                 }
 
                 // if (response?.data?.data?.token) {
@@ -89,12 +99,9 @@ export const appointments = {
 
                 }
                 await commit('setError', errorData);
-
-
-
             }
         },
-       
+
     },
 
 }

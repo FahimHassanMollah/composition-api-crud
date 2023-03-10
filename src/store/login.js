@@ -1,4 +1,7 @@
 import axios from "axios";
+import {useToast} from 'vue-toast-notification';
+const $toast = useToast();
+
 
 export const login = {
     namespaced: true,
@@ -87,17 +90,23 @@ export const login = {
 
                 const errorData = {
                     message: null,
-                    errors: []
+                    errors: null
                 };
                 if (error?.response?.data?.message) {
-                    errorData.message = error.message;
-                    commit('setError', error);
+                    $toast.open({
+                        message: `${error.response.data.message}`,
+                        type: 'error',
+                        // all of other options may go here
+                    });
+                    errorData.message = error?.response?.data?.message;
+                    
                 }
                 if (error?.response?.data?.errors) {
                     errorData.errors = error.response.data.errors;
 
                 }
                 await commit('setError', errorData);
+              
 
 
 
