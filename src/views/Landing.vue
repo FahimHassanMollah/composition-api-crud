@@ -17,7 +17,7 @@
 
             </div>
         </nav>
-        <section  class="black-gradient text-white py-10 px-5 ">
+        <section  class="black-gradient text-white pt-10 px-5 ">
             <div class="space-y-4">
                 <h1 class="font-medium text-xl">We Provide <br> Architectural design <br> and Construction</h1>
                 <p class="text-[#C4C4C4] ">​More than 100 building and housing projects that we have built.
@@ -31,8 +31,36 @@
         </section>
 
         <!-- status  -->
-        <section>
-        
+        <section class="bg-[#399FD8] p-5 text-white space-y-7">
+            <div class="flex justify-between ">
+                <div>
+                  <div class="flex items-stretch">
+                    <h2 class="font-bold text-3xl">25 </h2>
+                    <span class="self-end text-xl font-semibold">years</span>
+                  </div>
+                   <h3 class="font-semibold text-3xl">Operated</h3>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold">Logo </h2>
+                </div>
+            </div>
+            <div>
+                <p class="text-sm">As a trusted general project that has been operating for 25 years, our commitment is always to prioritize our client satisfaction.</p>
+            </div>
+            <div class="flex justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold mb-1">300+</h2>
+                    <h5 class="font-medium text-sm">Happy <br> Client</h5>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold mb-1">300+</h2>
+                    <h5 class="font-medium text-sm">Happy <br> Client</h5>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold mb-1">300+</h2>
+                    <h5 class="font-medium text-sm">Happy <br> Client</h5>
+                </div>
+            </div>
         </section>
     </div>
 </template>
