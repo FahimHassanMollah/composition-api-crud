@@ -7,6 +7,7 @@ import Edit from '../views/Edit.vue';
 import Login from '../views/Login.vue';
 import Provide from '../views/Provide.vue';
 import LifeCycle from '../views/LifeCycle.vue';
+import Landing from '../views/Landing.vue';
 import AppointmentList from '../views/appointments/AppointmentList.vue';
 import store from '../store';
 
@@ -27,6 +28,12 @@ const router = createRouter({
       path: '/life',
       name: 'lifeCycle',
       component: LifeCycle,
+     
+    },
+    {
+      path: '/landing',
+      name: 'landing',
+      component: Landing,
      
     },
     {
