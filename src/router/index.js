@@ -6,6 +6,7 @@ import View from '../views/View.vue';
 import Edit from '../views/Edit.vue';
 import Login from '../views/Login.vue';
 import Provide from '../views/Provide.vue';
+import LifeCycle from '../views/LifeCycle.vue';
 import AppointmentList from '../views/appointments/AppointmentList.vue';
 import store from '../store';
 
@@ -21,6 +22,12 @@ const router = createRouter({
       meta: {
         requiresAuth: true
       }
+    },
+    {
+      path: '/life',
+      name: 'lifeCycle',
+      component: LifeCycle,
+     
     },
     {
       path: '/provide',
